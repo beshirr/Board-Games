@@ -22,6 +22,6 @@ QtObject {
 
 
     property StudioApplication application: StudioApplication {
-        fontPath: Qt.resolvedUrl("../BoardGameContent/" + relativeFontDirectory)
+        fontPath: Qt.resolvedUrl("../BoardGamesContent/" + relativeFontDirectory)
     }
 }

@@ -7,7 +7,7 @@ Check out https://doc.qt.io/qtcreator/creator-quick-ui-forms.html for details on
 
 import QtQuick
 import QtQuick.Controls
-import BoardGame
+import BoardGames
 
 Rectangle {
     width: Constants.width
@@ -16,7 +16,7 @@ Rectangle {
     color: Constants.backgroundColor
 
     Text {
-        text: qsTr("Hello BoardGame")
+        text: qsTr("Hello BoardGames")
         anchors.centerIn: parent
         font.family: Constants.font.family
     }
