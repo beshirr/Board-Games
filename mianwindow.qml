@@ -40,39 +40,28 @@ Item {
         property var buttonLabels: ["Pyramid Tic-Tac-Toe", "Four in a row", "5x5 Tic-Tac-Toe", "Word Tic-Tac-Toe",
                                     "Numerical Tic-Tac-Toe", "Misere Tic-Tac-Toe", "4x4 Tic-Tac-Toe", "Ultimate Tic-Tac-Toe"]
 
+        Button {
+            id: tictactoeButton
+            width: 200
+            height: 40
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: titleText.bottom
+            anchors.margins: 60
 
-        Repeater {
-            model: buttonLabels
-            delegate: Item {
-                width: 200
-                height: 40
-
-                // Create a Button and set its properties
-                Button {
-                    width: 200
-                    height: 40
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: index === 0 ? titleText.bottom : children[index - 1].bottom
-                    anchors.topMargin: index === 0 ? 60 : 10  // Add margins to create space between buttons
-
-                    background: Rectangle {
-                        color: "#1B998B"
-                        radius: 10
-                    }
-
-                    contentItem: Text {
-                        text: modelData
-                        anchors.centerIn: parent
-                        color: "#E0E1DD"
-                        font.pixelSize: 16
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: console.log("Button clicked!")
-                    }
-                }
+            background: Rectangle {
+                color: "#1B998BFF"
+                radius: 10
             }
+
+            contentItem: Text {
+                text: "Pyramid Tic-Tac-Toe"
+                font.family: secondaryFont.name
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: "#E0E1DD"
+                font.pixelSize: 16
+            }
+
+            onClicked: gamecontentLoader.source = "TicTacToe.qml";
         }
     }
 }
