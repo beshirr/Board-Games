@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/5x5.png</file>
+        <file>fonts/Jaro_60pt-Regular.ttf</file>
+        <file>fonts/Kanit-Regular.ttf</file>
+    </qresource>
+</RCC>
