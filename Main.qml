@@ -1,8 +1,8 @@
 import QtQuick
 
 Window {
-    width: 800
-    height: 600
+    width: 1024
+    height: 768
     visible: true
     title: qsTr("Board Games")
 
