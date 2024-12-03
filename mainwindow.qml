@@ -10,11 +10,11 @@ Item {
 
         FontLoader {
             id: primaryFont
-            source: "file:///C:/Users/youss/Downloads/Jaro,Rubik/Jaro/static/Jaro_60pt-Regular.ttf"
+            source: "qrc:/fonts/Jaro_60pt-Regular.ttf"
         }
         FontLoader {
             id: secondaryFont
-            source: "file:///C:/Users/youss/Downloads/Kanit/Kanit-Regular.ttf"
+            source: "qrc:/fonts/Kanit-Regular.ttf"
         }
 
         Text {
