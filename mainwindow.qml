@@ -22,7 +22,7 @@ Item {
             text: "Welcome To Board Games"
             color: "#E0E1DD"
             font.pixelSize: 32
-            font.family: primaryFont.name
+            font.family: primaryFont.name || "DefaultFont"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: 20
@@ -32,7 +32,7 @@ Item {
             text: "Select A Game To Start"
             color: "#778DA9"
             font.pixelSize: 18
-            font.family: secondaryFont.name
+            font.family: secondaryFont.name || "DefaultFont"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: titleText.bottom
         }
@@ -42,26 +42,24 @@ Item {
 
         Button {
             id: tictactoeButton
-            width: 200
-            height: 40
-            anchors.horizontalCenter: parent.horizontalCenter
+            width: 150
+            height: 150
             anchors.top: titleText.bottom
             anchors.margins: 60
 
             background: Rectangle {
                 color: "#1B998BFF"
                 radius: 10
+
+                Image {
+                    id: t5x5logo
+                    source: "qrc:/icons/5x5.png"
+                    fillMode: Image.PreserveAspectFit
+                }
             }
 
-            contentItem: Text {
-                text: "Pyramid Tic-Tac-Toe"
-                font.family: secondaryFont.name
-                anchors.horizontalCenter: parent.horizontalCenter
-                color: "#E0E1DD"
-                font.pixelSize: 16
-            }
 
-            onClicked: gamecontentLoader.source = "TicTacToe.qml";
+            onClicked: gamecontentLoader.source = "TicTacToe5x5.qml";
         }
     }
 }
