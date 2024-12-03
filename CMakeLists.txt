@@ -24,6 +24,7 @@ qt_add_qml_module(appBoardGame
         QML_FILES mainwindow.qml
         SOURCES BoardGame_Classes.h
         SOURCES TicTacToe5x5.h
+        SOURCES t5x5backend.h t5x5backend.cpp
         QML_FILES TicTacToe5x5.qml
         RESOURCES resources.qrc
 )
