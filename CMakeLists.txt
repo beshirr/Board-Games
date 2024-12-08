@@ -9,9 +9,6 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 qt_standard_project_setup(REQUIRES 6.5)
 
 
-# Add the Qt resource file
-# qt_add_resources(RESOURCE_FILES resources.qrc)
-
 qt_add_executable(appBoardGame
     main.cpp
 )
@@ -24,7 +21,6 @@ qt_add_qml_module(appBoardGame
         QML_FILES mainwindow.qml
         SOURCES BoardGame_Classes.h
         SOURCES TicTacToe5x5.h
-        SOURCES t5x5backend.h t5x5backend.cpp
         QML_FILES TicTacToe5x5.qml
         RESOURCES resources.qrc
 )
