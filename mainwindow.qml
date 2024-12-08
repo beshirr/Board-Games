@@ -5,7 +5,7 @@ Item {
     Rectangle {
         id: mainrec
         anchors.fill: parent
-        color: "#0D1B2A"
+        color: "#eaeaea"
 
         FontLoader {
             id: primaryFont
@@ -19,7 +19,7 @@ Item {
         Text {
             id: titleText
             text: "Welcome To Board Games"
-            color: "#E0E1DD"
+            color: "#272424"
             font.pixelSize: 32
             font.family: primaryFont.name || "DefaultFont"
             anchors.horizontalCenter: parent.horizontalCenter
@@ -29,30 +29,28 @@ Item {
 
         Text {
             text: "Select A Game To Start"
-            color: "#778DA9"
+            color: "#c8272424"
             font.pixelSize: 18
             font.family: secondaryFont.name || "DefaultFont"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: titleText.bottom
         }
 
-        // property var buttonLabels: ["Pyramid Tic-Tac-Toe", "Four in a row", "5x5 Tic-Tac-Toe", "Word Tic-Tac-Toe",
-        //                             "Numerical Tic-Tac-Toe", "Misere Tic-Tac-Toe", "4x4 Tic-Tac-Toe", "Ultimate Tic-Tac-Toe"]
-
         Button {
-            id: tictactoe5x5Button
-            width: 150
-            height: 150
+            id: t5x5button
+            width: 220
+            height: 210
             anchors.top: titleText.bottom
             anchors.left: parent.left
-            anchors.topMargin: 120
-            anchors.leftMargin: 60
+            anchors.topMargin: 90
+            anchors.leftMargin: 80
+            display: AbstractButton.IconOnly
+            highlighted: true
 
             background: Rectangle {
-                id: tictactoe5x5buttonBack
+                id: t5x5buttonBackground
                 color: "#1B998BFF"
-                radius: 10
-
+                radius: 20
                 Image {
                     id: t5x5logo
                     source: "qrc:/icons/5x5.png"
@@ -61,71 +59,331 @@ Item {
             }
 
             Text {
-                text: "5x5 Tic Tac Toe"
-                anchors.top: tictactoe5x5buttonBack.bottom
-                anchors.topMargin: 10
-                anchors.horizontalCenter: tictactoe5x5buttonBack.horizontalCenter
-                font.pixelSize: 18
+                x: 50
+                y: 257
+                text: "5x5 Tic-Tac-Toe"
+                anchors.top: t5x5buttonBackground.bottom
+                anchors.topMargin: 6
+                anchors.horizontalCenter: t5x5buttonBackground.horizontalCenter
+                font.pixelSize: 24
+                anchors.horizontalCenterOffset: 0
                 font.family: secondaryFont.name || "DefaultFont"
                 font.bold: true
-                color: "#E0E1DD"
+                color: "#272424"
 
                 Text {
-                    text: "This Tic-Tac-Toe variation\n is played on a 5x5 grid"
+                    text: "This Tic-Tac-Toe variation is played on\na 5x5 grid"
                     anchors.top: parent.bottom
-                    anchors.topMargin: 2
+                    anchors.topMargin: 6
                     anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 11
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.horizontalCenterOffset: 1
                     font.family: secondaryFont.name || "DefaultFont"
                     color: "#555"
                 }
             }
-            onClicked: gamecontentLoader.source = "TicTacToe5x5.qml";
         }
 
         Button {
-            id: tictactoeButton
-            width: 150
-            height: 150
+            id: misereButton
+            width: 220
+            height: 210
             anchors.top: titleText.bottom
             anchors.left: parent.left
-            anchors.topMargin: 120
-            anchors.leftMargin: 240
+            anchors.topMargin: 90
+            anchors.leftMargin: 380
+            display: AbstractButton.IconOnly
+            highlighted: true
 
+            Text {
+                x: 50
+                y: 257
+                color: "#272424"
+                text: "Misere Tic-Tac-Toe"
+                anchors.top: misereButtonBackground.bottom
+                anchors.topMargin: 6
+                font.pixelSize: 24
+                font.family: secondaryFont.name || "DefaultFont"
+                font.bold: true
+                Text {
+                    color: "#555555"
+                    text: "Unique twist on the classic Game"
+                    anchors.top: parent.bottom
+                    anchors.topMargin: 6
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
+                    font.family: secondaryFont.name || "DefaultFont"
+                    anchors.horizontalCenterOffset: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: misereButtonBackground.horizontalCenter
+            }
             background: Rectangle {
-                id: tictactoebuttonBack
-                color: "#1B998BFF"
-                radius: 10
-
+                id: misereButtonBackground
+                color: "#1b998bff"
+                radius: 20
                 Image {
-                    id: tlogo
+                    // id: t5x5logo
                     source: "qrc:/icons/5x5.png"
                     fillMode: Image.PreserveAspectFit
                 }
             }
+        }
+
+        Button {
+            id: pyramidButton
+            width: 220
+            height: 210
+            anchors.top: titleText.bottom
+            anchors.left: parent.left
+            anchors.topMargin: 90
+            anchors.leftMargin: 680
+            display: AbstractButton.IconOnly
+            highlighted: true
 
             Text {
-                text: "Misere Tic Tac Toe"
-                anchors.top: tictactoebuttonBack.bottom
-                anchors.topMargin: 10
-                anchors.horizontalCenter: tictactoebuttonBack.horizontalCenter
-                font.pixelSize: 18
+                x: 50
+                y: 257
+                color: "#272424"
+                text: "Pyramid Tic-Tac-Toe"
+                anchors.top: tictactoe5x5buttonBack4.bottom
+                anchors.topMargin: 6
+                font.pixelSize: 24
                 font.family: secondaryFont.name || "DefaultFont"
                 font.bold: true
-                color: "#E0E1DD"
-
                 Text {
-                    text: "Unique twist on the\n" +
-                        " classic game"
+                    color: "#555555"
+                    text: "The game board is shaped like a pyramid"
                     anchors.top: parent.bottom
-                    anchors.topMargin: 2
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 11
+                    anchors.topMargin: 6
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
                     font.family: secondaryFont.name || "DefaultFont"
-                    color: "#555"
+                    anchors.horizontalCenterOffset: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: tictactoe5x5buttonBack4.horizontalCenter
             }
-            onClicked: gamecontentLoader.source = "TicTacToe5x5.qml";
+            background: Rectangle {
+                id: tictactoe5x5buttonBack4
+                color: "#1b998bff"
+                radius: 20
+
+                // Icon
+            }
+        }
+
+        Button {
+            id: forinrow
+            width: 220
+            height: 210
+            anchors.top: titleText.bottom
+            anchors.left: parent.left
+            anchors.topMargin: 90
+            anchors.leftMargin: 980
+            display: AbstractButton.IconOnly
+            highlighted: true
+
+            Text {
+                x: 50
+                y: 257
+                color: "#272424"
+                text: "Four-in-a-row"
+                anchors.top: tictactoe5x5buttonBack6.bottom
+                anchors.topMargin: 6
+                font.pixelSize: 24
+                font.family: secondaryFont.name || "DefaultFont"
+                font.bold: true
+                Text {
+                    color: "#555555"
+                    text: "You will recognize four-in-a row as\na two-dimensional version of Connect Four"
+                    anchors.top: parent.bottom
+                    anchors.topMargin: 6
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
+                    font.family: secondaryFont.name || "DefaultFont"
+                    anchors.horizontalCenterOffset: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: tictactoe5x5buttonBack6.horizontalCenter
+            }
+            background: Rectangle {
+                id: tictactoe5x5buttonBack6
+                color: "#1b998bff"
+                radius: 20
+            }
+        }
+
+        Button {
+            id: wordButton
+            width: 220
+            height: 210
+            anchors.top: titleText.bottom
+            anchors.left: parent.left
+            anchors.topMargin: 400
+            anchors.leftMargin: 80
+            display: AbstractButton.IconOnly
+            highlighted: true
+
+            Text {
+                x: 39
+                y: 256
+                color: "#272424"
+                text: "Word Tic-Tac-Toe"
+                anchors.top: tictactoe5x5buttonBack1.bottom
+                anchors.topMargin: 6
+                font.pixelSize: 24
+                font.family: secondaryFont.name || "DefaultFont"
+                font.bold: true
+                Text {
+                    color: "#555555"
+                    text: "Innovative twist on the classic\nTic-Tac-Toe game"
+                    anchors.top: parent.bottom
+                    anchors.topMargin: 6
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
+                    font.family: secondaryFont.name || "DefaultFont"
+                    anchors.horizontalCenterOffset: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: tictactoe5x5buttonBack1.horizontalCenter
+            }
+            background: Rectangle {
+                id: tictactoe5x5buttonBack1
+                color: "#1b998bff"
+                radius: 20
+            }
+        }
+
+        Button {
+            id: numButton
+            width: 220
+            height: 210
+            anchors.top: titleText.bottom
+            anchors.left: parent.left
+            anchors.topMargin: 400
+            anchors.leftMargin: 380
+            display: AbstractButton.IconOnly
+            highlighted: true
+
+            Text {
+                x: 12
+                y: 256
+                color: "#272424"
+                text: "Numerical Tic-Tac-Toe"
+                anchors.top: tictactoe5x5buttonBack3.bottom
+                anchors.topMargin: 6
+                font.pixelSize: 24
+                font.family: secondaryFont.name || "DefaultFont"
+                font.bold: true
+                Text {
+                    color: "#555555"
+                    text: "Offers a mathematical twist to\n the classic Tic-Tac-Toe game"
+                    anchors.top: parent.bottom
+                    anchors.topMargin: 6
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
+                    font.family: secondaryFont.name || "DefaultFont"
+                    anchors.horizontalCenterOffset: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: tictactoe5x5buttonBack3.horizontalCenter
+            }
+            background: Rectangle {
+                id: tictactoe5x5buttonBack3
+                color: "#1b998bff"
+                radius: 20
+            }
+        }
+
+        Button {
+            id: t4x4Button
+            width: 220
+            height: 210
+            anchors.top: titleText.bottom
+            anchors.left: parent.left
+            anchors.topMargin: 400
+            anchors.leftMargin: 680
+            display: AbstractButton.IconOnly
+            highlighted: true
+
+            Text {
+                x: 50
+                y: 257
+                color: "#272424"
+                text: "4x4 Tic-Tac-Toe"
+                anchors.top: tictactoe5x5buttonBack5.bottom
+                anchors.topMargin: 6
+                font.pixelSize: 24
+                font.family: secondaryFont.name || "DefaultFont"
+                font.bold: true
+                Text {
+                    color: "#555555"
+                    text: "Extended version of the classic game\nplayed on a larger board"
+                    anchors.top: parent.bottom
+                    anchors.topMargin: 6
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
+                    font.family: secondaryFont.name || "DefaultFont"
+                    anchors.horizontalCenterOffset: 0
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: tictactoe5x5buttonBack5.horizontalCenter
+            }
+            background: Rectangle {
+                id: tictactoe5x5buttonBack5
+                color: "#1b998bff"
+                radius: 20
+            }
+        }
+
+        Button {
+            id: ultimateButton
+            width: 220
+            height: 210
+            anchors.top: titleText.bottom
+            anchors.left: parent.left
+            anchors.topMargin: 400
+            anchors.leftMargin: 980
+            display: AbstractButton.IconOnly
+            highlighted: true
+
+            Text {
+                x: 24
+                y: 256
+                color: "#272424"
+                text: "Ultimate Tic Tac Toe"
+                anchors.top: tictactoe5x5buttonBack7.bottom
+                anchors.topMargin: 6
+                font.pixelSize: 24
+                font.family: secondaryFont.name || "DefaultFont"
+                font.bold: true
+                Text {
+                    color: "#555555"
+                    text: "Expansion of the classic game, where players \nengage in a meta game\nof Tic Tac Toe"
+                    anchors.top: parent.bottom
+                    anchors.topMargin: 6
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
+                    font.family: secondaryFont.name || "DefaultFont"
+                    anchors.horizontalCenterOffset: 1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+                anchors.horizontalCenterOffset: 0
+                anchors.horizontalCenter: tictactoe5x5buttonBack7.horizontalCenter
+            }
+            background: Rectangle {
+                id: tictactoe5x5buttonBack7
+                color: "#1b998bff"
+                radius: 20
+            }
         }
     }
 }
