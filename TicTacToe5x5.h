@@ -50,16 +50,16 @@ public:
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
 
-                const bool rowWin = this->board[i][j] == ' ' && this->board[i][j] == this->board[i][j + 1] &&
+                const bool rowWin = this->board[i][j] != ' ' && this->board[i][j] == this->board[i][j + 1] &&
                     this->board[i][j + 1] == this->board[i][j + 2];
 
-                const bool colWin = this->board[i][j] == ' ' && this->board[i][j] == this->board[i+1][j] &&
+                const bool colWin = this->board[i][j] != ' ' && this->board[i][j] == this->board[i+1][j] &&
                     this->board[i+1][j] == this->board[i+2][j];
 
                 const bool pDiagonalWin = this->board[i][j] != ' ' && this->board[i][j] == this->board[i + 1][j + 1]
                     && this->board[i + 1][j + 1] == this->board[i + 2][j + 2];
 
-                const bool sDiagonalWin = this->board[i][j+ 2] == ' ' && this->board[i][j + 2] == this->board[i + 1][j + 1]
+                const bool sDiagonalWin = this->board[i][j+ 2] != ' ' && this->board[i][j + 2] == this->board[i + 1][j + 1]
                     && this->board[i + 1][j + 1] == this->board[i + 2][j];
 
                 string seq;
