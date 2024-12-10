@@ -6,8 +6,8 @@
 #define TICTACTOE5X5_H
 
 #include <QObject>
-#include <utility>
 #include "BoardGame_Classes.h"
+#include <set>
 
 
 class Board5x5 : public QObject,public Board<QChar> {
@@ -35,6 +35,7 @@ public:
     bool update_board(const int x, const int y, const QChar symbol) override {
         if (this->board[x][y] == ' ') {
             this->board[x][y] = symbol;
+            this->n_moves++;
             return true;
         }
         return false;
@@ -44,20 +45,49 @@ public:
     void display_board() override {}
 
 
-
     bool is_win() override {
-        return true;
+        set<string> sequences;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                const bool rowWin = this->board[i][j] == ' ' && this->board[i][j] == this->board[i][j + 1] &&
+                    this->board[i][j + 1] == this->board[i][j + 2];
+
+                const bool colWin = this->board[i][j] == ' ' && this->board[i][j] == this->board[i+1][j] &&
+                    this->board[i+1][j] == this->board[i+2][j];
+
+                const bool pDiagonalWin = this->board[i][j] != ' ' && this->board[i][j] == this->board[i + 1][j + 1]
+                    && this->board[i + 1][j + 1] == this->board[i + 2][j + 2];
+
+                const bool sDiagonalWin = this->board[i][j+ 2] == ' ' && this->board[i][j + 2] == this->board[i + 1][j + 1]
+                    && this->board[i + 1][j + 1] == this->board[i + 2][j];
+
+                string seq;
+                if (rowWin) {
+                    seq = to_string(i) + to_string(j) + to_string(i) + to_string(j + 1) + to_string(i) + to_string(j + 2);
+
+                } else if (colWin) {
+                    seq = to_string(i) + to_string(j) + to_string(i + 1) + to_string(j) + to_string(i + 2) + to_string(j);
+                } else if (pDiagonalWin) {
+                    seq = to_string(i) + to_string(j) + to_string(i + 1) + to_string(j + 1) + to_string(i + 2) + to_string(j + 2);
+                } else if (sDiagonalWin) {
+                    seq = to_string(i) + to_string(j + 2) + to_string(i + 1) + to_string(j + 1) + to_string(i + 2) + to_string(j);
+                }
+
+                if (sequences.insert(seq).second) {
+                    // TODO: connect with frontend to do some sort of animation
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
-    bool is_draw() override {
-        return this->n_moves == 24 && p1_nWins == p2_nWins;
-    }
+    bool is_draw() override { return game_is_over() && p1_nWins == p2_nWins; }
 
 
-    bool game_is_over() override {
-        return this->n_moves == 24;
-    }
+    bool game_is_over() override { return this->n_moves == 24; }
 };
 
 
