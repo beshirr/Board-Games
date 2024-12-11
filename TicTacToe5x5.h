@@ -8,7 +8,7 @@
 #include <QObject>
 #include "BoardGame_Classes.h"
 #include <set>
-
+#include <QDebug>
 
 class Board5x5 : public QObject,public Board<QChar> {
     Q_OBJECT
@@ -32,12 +32,13 @@ public:
     }
 
 
-    bool update_board(const int x, const int y, const QChar symbol) override {
+    Q_INVOKABLE bool update_board(const int x, const int y, const QChar symbol) override {
         if (this->board[x][y] == ' ') {
             this->board[x][y] = symbol;
             this->n_moves++;
             return true;
         }
+        qDebug() << board[x][y];
         return false;
     }
 

@@ -5,6 +5,12 @@ Item {
     width: 400
     height: 400
 
+    property int playerTurn: 1
+
+    function delay(ms, callback) {
+        setTimeout(callback, ms);
+    }
+
     Rectangle {
         anchors.fill: parent
         color: "black"
@@ -49,11 +55,20 @@ Item {
                 }
                 MouseArea {
                     anchors.fill: parent
-                    // onClicked: {
-                    //     cellText.text = "X"
-                    //     // TODO: Add code logic
-                    //
-                    // }
+                    onClicked: {
+                        if (playerTurn === 1) {
+                            if (Board5x5.update_board(Math.floor(index / 5), index % 5, 'X')) {
+                                cellText.text = "X"
+                                playerTurn = 2
+                            }
+                        } else {
+                            if (Board5x5.update_board(Math.floor(index / 5), index % 5, 'O')) {
+                                cellText.text = "O"
+                                playerTurn = 1
+                            }
+                        }
+
+                    }
                 }
             }
         }
@@ -67,10 +82,6 @@ Item {
         onClicked: {
             gamecontentLoader.source = "mainwindow.qml";
         }
-    }
-
-    Connections {
-        target: x5_backend
     }
 
 }
