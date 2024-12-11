@@ -83,6 +83,7 @@ Item {
                     color: "#555"
                 }
             }
+                onClicked: gamecontentLoader.source = "TicTacToe5x5.qml";
         }
 
         Button {
