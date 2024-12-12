@@ -4,14 +4,14 @@
 
 #include "TicTacToe5x5.h"
 
+
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    Board5x5 game_board5x5;
-    engine.rootContext()->setContextProperty("Board5x5", &game_board5x5);
-    Player5x5* players[2];
-    engine.rootContext()->setContextProperty("Player5x5", *players);
+    qmlRegisterType<Board5x5>("TicTacToe5x5", 1, 0, "Board5x5");
+    qmlRegisterType<Player5x5>("TicTacToe5x5", 1, 0, "Player5x5");
+
     engine.loadFromModule("BoardGame", "Main");
     if (engine.rootObjects().isEmpty())
         return -1;
