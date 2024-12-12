@@ -3,16 +3,18 @@
 
 #include "BoardGame_Classes.h"
 #include <iostream>
+#include <fstream>
 
 
-class WordBoard: public Board<char>{
+class WordBoard: public Board<string>{
 private:
-    bool is_word();
+    string WordsFile;
+    bool is_word(const string& word);
 
 public:
     WordBoard();
     ~WordBoard();
-    bool update_board(int x, int y, char symbol) override;
+    bool update_board(int x, int y, string symbol) override;
     void display_board() override;
     bool is_win() override;
     bool is_draw() override;
@@ -26,4 +28,4 @@ public:
 };
 
 
-#endif WORDTICTACTOE_H
+#endif //WORDTICTACTOE_H
