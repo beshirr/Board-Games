@@ -6,6 +6,9 @@
 
 
 class WordBoard: public Board<char>{
+private:
+    bool is_word();
+
 public:
     WordBoard();
     ~WordBoard();
