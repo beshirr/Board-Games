@@ -5,15 +5,17 @@
 #ifndef TICTACTOE5X5_H
 #define TICTACTOE5X5_H
 
+#include <QGuiApplication>
 #include <QObject>
 #include "BoardGame_Classes.h"
 #include <set>
-#include <QDebug>
 
 class Board5x5 : public QObject,public Board<QChar> {
     Q_OBJECT
+    Q_PROPERTY(QStringList f_board READ getFrontBoard NOTIFY frontBoardChanged)
 private:
     int p1_nWins, p2_nWins;
+    QStringList f_board; // Representation of the game board for the frontend
 
 public:
     explicit Board5x5(QObject* parent = nullptr) {
@@ -29,22 +31,51 @@ public:
 
         this->n_moves = 0;
         this->p1_nWins = this->p2_nWins = 0;
+        updateFrontBoard();
     }
-
 
     Q_INVOKABLE bool update_board(const int x, const int y, const QChar symbol) override {
         if (this->board[x][y] == ' ') {
             this->board[x][y] = symbol;
             this->n_moves++;
+            qDebug() << board[x][y];
             return true;
         }
-        qDebug() << board[x][y];
         return false;
     }
 
+    Q_INVOKABLE void reset_Board() {
+        for (int i = 0; i < this->rows; i++) {
+            for (int j = 0; j < this->columns; j++) {
+                this->board[i][j] = ' ';
+            }
+        }
+        this->n_moves = 0;
+        this->p1_nWins = this->p2_nWins = 0;
+        updateFrontBoard();
+    }
+
+    Q_INVOKABLE void reset_game() {
+        reset_Board();
+    }
+
+    Q_INVOKABLE void play_again() {
+        reset_Board();
+    }
+
+    QStringList getFrontBoard() const { return f_board; }
+
+    void updateFrontBoard() {
+        f_board.clear();
+        for (int i = 0; i < this->rows; ++i) {
+            for (int j = 0; j < this->columns; ++j) {
+                f_board.append(QString(this->board[i][j]));
+            }
+        }
+        qDebug() << f_board[0];
+    }
 
     void display_board() override {}
-
 
     bool is_win() override {
         set<string> sequences;
@@ -76,7 +107,7 @@ public:
                 }
 
                 if (sequences.insert(seq).second) {
-                    // TODO: connect with frontend to do some sort of animation
+                    emit sequenceWon();
                     return true;
                 }
             }
@@ -84,20 +115,33 @@ public:
         return false;
     }
 
+    bool is_draw() override { return  this->n_moves == 24 && p1_nWins == p2_nWins; }
 
-    bool is_draw() override { return game_is_over() && p1_nWins == p2_nWins; }
+    bool game_is_over() override { return this->n_moves == 24 || (p1_nWins > 4 || p2_nWins > 4); }
 
-
-    bool game_is_over() override { return this->n_moves == 24; }
+signals:
+    void frontBoardChanged();
+    void sequenceWon();
+    void gameWon(const QString& name);
+    void gameDrown();
 };
 
 
 class Player5x5 : public QObject, public Player<QChar> {
     Q_OBJECT
+    Q_PROPERTY(QString playerName READ getPlayerName)
 public:
-    explicit Player5x5(QObject* parent, string name, const QChar symbol) :  QObject(parent),
-    Player(std::move(name), symbol) {}
+    explicit Player5x5(QObject* parent = nullptr): Player<QChar>("player", 'X') {
+    }
+
     void getmove(int &x, int &y) override {}
+    Q_INVOKABLE void setPlayerData(const string& playerName, const QChar& playerSymbol) {
+        this->name = playerName;
+        this->symbol = playerSymbol;
+    }
+    Q_INVOKABLE QString getPlayerName() { return Name; }
+    QString getSymbol() const { return this->symbol; }
+    QString Name = "TEST";
 };
 
 
