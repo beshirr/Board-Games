@@ -33,7 +33,7 @@ Item {
         columns: 1
         rows: 1
         width: parent.width * (0.8/5.0)
-        height: parent.height * (0.8/3.0)
+        height: parent.height * (0.8/3.3)
 
         Repeater {
             model: 1
@@ -56,7 +56,7 @@ Item {
         columns: 3
         rows: 1
         width: parent.width * (2.4/5.0)
-        height: parent.height * (0.8/3.0)
+        height: parent.height * (0.8/3.3)
         columnSpacing: 10
         Repeater{
             model: 3
@@ -81,7 +81,7 @@ Item {
         columns: 5
         rows: 1
         width: parent.width * 0.8
-        height: parent.height * (0.8/3.0)
+        height: parent.height * (0.8/3.3)
         columnSpacing: 10
         Repeater {
             model: 5

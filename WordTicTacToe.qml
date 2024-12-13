@@ -16,16 +16,11 @@ Item{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 20
-        spacing: 10
+        spacing: 5
 
         Text {
             text: "Word Tic Tac Toe"
             font.pixelSize: 28
-            color: "#555"
-        }
-        Text {
-            text: "Player " + wordWindow.playerTurn + "'s turn"
-            font.pixelSize: 20
             color: "#555"
         }
     }
@@ -34,43 +29,19 @@ Item{
         id: gameBoard
         rows: 3
         columns: 3
-        spacing: 12
+        spacing: 10
         anchors.centerIn: parent
         width: parent.width * 0.8
         height: parent.height * 0.8
         Repeater {
             model: 9
             Rectangle {
-                width: gameBoard.width / 3 - gameBoard.spacing
-                height: gameBoard.height / 3 - gameBoard.spacing
+                width: gameBoard.width / 3.0
+                height: gameBoard.height / 3.0
                 color: "#000000"
                 border.color: "white"
                 border.width: 2
                 radius: 20
-                Text {
-                    id: cellText
-                    anchors.centerIn: parent
-                    font.pixelSize: 128
-                    text: ""
-                    color: "#333"
-                }
-                TextArea {
-                    id: textcell
-                    anchors.fill: parent
-                    anchors.centerIn: parent
-                    font.pixelSize: 32
-                    text: ""
-                    readOnly: false
-                    color: "#000000"
-                    onTextChanged: {
-                        if(text === ""){
-                            if (text.length > 1 || !text.match(/^[a-zA-Z]$/)) {
-                                text = text.slice(0, 1).toUpperCase();
-                                WordWindow.playerTurn = 2
-                            }
-                        }
-                    }
-                }
             }
         }
     }
