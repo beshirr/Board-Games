@@ -1,14 +1,13 @@
 import QtQuick
 import QtQuick.Controls
+import TicTacToe5x5
+
 
 Item {
-    width: 400
-    height: 400
+    anchors.fill: parent
 
-    property int playerTurn: 1
-
-    function delay(ms, callback) {
-        setTimeout(callback, ms);
+    Board5x5 {
+        id: board
     }
 
     Rectangle {
@@ -16,16 +15,67 @@ Item {
         color: "black"
     }
 
-    Column {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 20
-        spacing: 10
+    property string nPlayers : "1"
+    property int playerTurn: 1
+    property int player1_Score: 0
+    property int player2_Score: 0
+    property string player_1Name: "PLAYER-1"
+    property string player_2Name: (nPlayers === "1")? "COMPUTER" : "PLayer2"
 
-        Text {
-            text: "Tic Tac Toe 5x5"
-            font.pixelSize: 28
-            color: "#555"
+    Component.onCompleted: {
+
+    }
+
+    Button {
+        id: playersType
+        width: 30
+        height: 30
+        text: nPlayers + "P"
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: 700
+        onClicked: {
+            nPlayers = (nPlayers === "1")? "2" : "1";
+            text: nPlayers + "P"
+            board.reset_Board()
+        }
+    }
+
+    TextEdit {
+        id: player1Name
+        anchors.left: parent.left
+        anchors.leftMargin: 450
+        y: 650
+        text: player_1Name
+        color: "white"
+        font.pointSize: 20
+        onTextChanged: {
+            player_1Name: text
+        }
+        Keys.onReturnPressed: {
+            focus = false;
+        }
+    }
+    Text {
+        anchors.horizontalCenter: parent.horizontalCenter
+        font.pointSize: 24
+        text: player1_Score
+        color: "white"
+    }
+
+
+    TextEdit {
+        id: player2Name
+        anchors.right: parent.right
+        anchors.rightMargin: 450
+        y: 650
+        text: player_2Name
+        color: "white"
+        font.pointSize: 20
+        onTextChanged: {
+            player_2Name: text
+        }
+        Keys.onReturnPressed: {
+            focus = false;
         }
     }
 
@@ -33,13 +83,13 @@ Item {
         id: gameBoard
         rows: 5
         columns: 5
-        spacing: 8
+        spacing: 0
         anchors.centerIn: parent
-        width: parent.width * 0.8
-        height: parent.height * 0.8
+        width: parent.width * 0.5
+        height: parent.height * 0.5
 
         Repeater {
-            model: 25
+            model: board.f_board
             Rectangle {
                 width: gameBoard.width / 5 - gameBoard.spacing
                 height: gameBoard.height / 5 - gameBoard.spacing
@@ -49,28 +99,34 @@ Item {
                 Text {
                     id: cellText
                     anchors.centerIn: parent
-                    font.pixelSize: 128
-                    text: ""
+                    font.pixelSize: 85
+                    text: modelData
                     color: "#333"
                 }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (playerTurn === 1) {
-                            if (Board5x5.update_board(Math.floor(index / 5), index % 5, 'X')) {
-                                cellText.text = "X"
-                                playerTurn = 2
-                            }
-                        } else {
-                            if (Board5x5.update_board(Math.floor(index / 5), index % 5, 'O')) {
-                                cellText.text = "O"
-                                playerTurn = 1
+                        if (nPlayers === "2") {
+                            if (playerTurn === 1) {
+                                if (board.update_board(Math.floor(index / 5), index % 5, 'X')) { // Modify to make it player.symbol
+                                    cellText.text = "X"
+                                    playerTurn = 2
+                                }
+                            } else {
+                                if (board.update_board(Math.floor(index / 5), index % 5, 'O')) {
+                                    cellText.text = "O"
+                                    playerTurn = 1
+                                }
                             }
                         }
-
                     }
                 }
             }
+        }
+    }
+    Connections {
+        target: board
+        function onSequenceWon() {
         }
     }
 
@@ -83,5 +139,4 @@ Item {
             gamecontentLoader.source = "mainwindow.qml";
         }
     }
-
 }
