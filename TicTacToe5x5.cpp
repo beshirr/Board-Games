@@ -68,10 +68,10 @@ bool Board5x5::is_win()  {
 }
 
 
-bool Board5x5::is_draw() { return  this->n_moves == 24; }
+bool Board5x5::is_draw() { return this->player1Wins == this->player2Wins; }
 
 
-bool Board5x5::game_is_over() { return this->n_moves == 24; }
+bool Board5x5::game_is_over() { return this->n_moves == 23; }
 
 
 QStringList Board5x5::getFrontBoard() const { return f_board; }
@@ -88,10 +88,25 @@ void Board5x5::updateFrontBoard() {
 }
 
 
-void Board5x5::reset_Board() {}
+void Board5x5::reset_Board() {
+    for (int i = 0; i < this->rows; ++i) {
+        for (int j = 0; j < this->columns; ++j) {
+            this->board[i][j] = ' ';
+        }
+    }
+    updateFrontBoard();
+    player1Wins = 0;
+    player2Wins = 0;
+    n_moves = 0;
+}
+
+
 void Board5x5::reset_game() {}
 void Board5x5::play_again() {}
-void Board5x5::gameWinner() {}
+
+int Board5x5::gameWinner() const {
+    return (player1Wins > player2Wins)? 0 : 1;
+}
 
 
 

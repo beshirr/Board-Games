@@ -68,12 +68,12 @@ Item {
             focus = false;
         }
     }
-    Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-        font.pointSize: 24
-        text: Helpers.player1Score
-        color: "white"
-    }
+    // Text {
+    //     anchors.horizontalCenter: parent.horizontalCenter
+    //     font.pointSize: 24
+    //     text: Helpers.player1Score
+    //     color: "white"
+    // }
 
 
     TextEdit {
