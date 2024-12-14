@@ -45,7 +45,7 @@ Item{
                 TextArea{
                     id: textCell
                     readOnly: false
-                    anchors.centerIn: parent.verticalCenter
+                    anchors.centerIn: parent
                     width: parent.width * 0.9
                     height: parent.height * 0.9
                     text: "0"

@@ -175,6 +175,7 @@ Item {
 
                 // Icon
             }
+            onClicked: gamecontentLoader.source = "PyramidTicTacToe.qml";
         }
 
         Button {
@@ -259,6 +260,7 @@ Item {
                 color: "#1b998bff"
                 radius: 20
             }
+            onClicked: gamecontentLoader.source = "WordTicTacToe.qml";
         }
 
         Button {
