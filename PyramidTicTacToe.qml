@@ -44,6 +44,23 @@ Item {
                 border.width: 2
                 border.color: "#ffffff"
                 radius: 20
+
+                Text {
+                    id: topTextCell
+                    color: "#333"
+                    anchors.centerIn: parent
+                    font.pixelSize: 120
+                    text: " "
+                }
+                MouseArea{
+                    id: topMouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        if (topTextCell.text === " "){
+                            topTextCell.text = "X"
+                        }
+                    }
+                }
             }
         }
     }
@@ -69,6 +86,23 @@ Item {
                 border.width: 2
                 border.color: "#ffffff"
                 radius: 20
+                Text {
+                    id: middleTextCell
+                    color: "#333"
+                    anchors.centerIn: parent
+                    font.pixelSize: 120
+                    text: " "
+                }
+                MouseArea{
+                    id: middleMouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        if (middleTextCell.text === " "){
+                            middleTextCell.text = "X"
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -94,6 +128,22 @@ Item {
                 border.width: 2
                 border.color: "#ffffff"
                 radius: 20
+                Text {
+                    id: bottomTextCell
+                    color: "#333"
+                    anchors.centerIn: parent
+                    font.pixelSize: 120
+                    text: " "
+                }
+                MouseArea{
+                    id: bottomMouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        if (bottomTextCell.text === " "){
+                            bottomTextCell.text = "X"
+                        }
+                    }
+                }
             }
         }
     }
