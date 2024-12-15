@@ -1,5 +1,7 @@
 import QtQuick
 import QtQuick.Controls
+import PyramidTicTacToe
+import PyramidHelpel as Helper
 
 Item {
     id: pyramidWindow
@@ -12,6 +14,25 @@ Item {
         color: "#000000"
     }
 
+    PyramidBoard {
+        id: board
+    }
+
+    PramidPlayer {
+        id: player1
+        name: "PLAYER-1"
+        symol: "X"
+
+    }
+
+    PyramidPlayer {
+        id: player2
+        name: "PLAYER-2"
+        symbol: "O"
+    }
+
+
+
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
@@ -22,6 +43,22 @@ Item {
             text: "Pyramid Tic Tac Toe"
             font.pixelSize: 28
             color: "#555"
+        }
+    }
+
+    TextEdit {
+        id: player1Name
+        anchors.left: parent.left
+        anchors.leftMargin: 450
+        y: 650
+        text: player1.name
+        color: "white"
+        font.pointSize: 20
+        onTextChanged: {
+            player1.name = text
+        }
+        Keys.onReturnPressed: {
+            focus = false;
         }
     }
 
@@ -44,6 +81,23 @@ Item {
                 border.width: 2
                 border.color: "#ffffff"
                 radius: 20
+
+                Text {
+                    id: topTextCell
+                    color: "#333"
+                    anchors.centerIn: parent
+                    font.pixelSize: 120
+                    text: " "
+                }
+                MouseArea{
+                    id: topMouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        if (topTextCell.text === " "){
+                            topTextCell.text = "X"
+                        }
+                    }
+                }
             }
         }
     }
@@ -69,6 +123,23 @@ Item {
                 border.width: 2
                 border.color: "#ffffff"
                 radius: 20
+                Text {
+                    id: middleTextCell
+                    color: "#333"
+                    anchors.centerIn: parent
+                    font.pixelSize: 120
+                    text: " "
+                }
+                MouseArea{
+                    id: middleMouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        if (middleTextCell.text === " "){
+                            middleTextCell.text = "X"
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -94,6 +165,22 @@ Item {
                 border.width: 2
                 border.color: "#ffffff"
                 radius: 20
+                Text {
+                    id: bottomTextCell
+                    color: "#333"
+                    anchors.centerIn: parent
+                    font.pixelSize: 120
+                    text: " "
+                }
+                MouseArea{
+                    id: bottomMouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        if (bottomTextCell.text === " "){
+                            bottomTextCell.text = "X"
+                        }
+                    }
+                }
             }
         }
     }
