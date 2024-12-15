@@ -1,26 +1,39 @@
 import QtQuick
 import QtQuick.Controls
 import TicTacToe5x5
-
+import "t5x5Helpers.js" as Helpers
 
 Item {
     anchors.fill: parent
-
+    property string nPlayers: "1"
     Board5x5 {
         id: board
+    }
+
+    Player5x5 {
+        id: player1
+        name: "PLAYER-1"
+        symbol: 'X'
+        nWins: 0
+    }
+
+    Player5x5 {
+        id: player2
+        name: "PLAYER-2"
+        symbol: "O"
+        nWins: 0
+    }
+
+    RandomPlayer5x5 {
+        id: computer
+        name: "COMPUTER"
+        symbol: "O"
     }
 
     Rectangle {
         anchors.fill: parent
         color: "black"
     }
-
-    property string nPlayers : "1"
-    property int playerTurn: 1
-    property int player1_Score: 0
-    property int player2_Score: 0
-    property string player_1Name: "PLAYER-1"
-    property string player_2Name: (nPlayers === "1")? "COMPUTER" : "PLayer2"
 
     Component.onCompleted: {
 
@@ -45,22 +58,22 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: 450
         y: 650
-        text: player_1Name
+        text: player1.name
         color: "white"
         font.pointSize: 20
         onTextChanged: {
-            player_1Name: text
+            player1.name = text
         }
         Keys.onReturnPressed: {
             focus = false;
         }
     }
-    Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-        font.pointSize: 24
-        text: player1_Score
-        color: "white"
-    }
+    // Text {
+    //     anchors.horizontalCenter: parent.horizontalCenter
+    //     font.pointSize: 24
+    //     text: Helpers.player1Score
+    //     color: "white"
+    // }
 
 
     TextEdit {
@@ -68,7 +81,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 450
         y: 650
-        text: player_2Name
+        text: (nPlayers === "1")? computer.name : player2.name
         color: "white"
         font.pointSize: 20
         onTextChanged: {
@@ -106,27 +119,10 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (nPlayers === "2") {
-                            if (playerTurn === 1) {
-                                if (board.update_board(Math.floor(index / 5), index % 5, 'X')) { // Modify to make it player.symbol
-                                    cellText.text = "X"
-                                    playerTurn = 2
-                                }
-                            } else {
-                                if (board.update_board(Math.floor(index / 5), index % 5, 'O')) {
-                                    cellText.text = "O"
-                                    playerTurn = 1
-                                }
-                            }
-                        }
+                        Helpers.run(index);
                     }
                 }
             }
-        }
-    }
-    Connections {
-        target: board
-        function onSequenceWon() {
         }
     }
 

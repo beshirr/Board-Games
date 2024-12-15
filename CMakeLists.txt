@@ -23,6 +23,8 @@ qt_add_qml_module(appBoardGame
         SOURCES TicTacToe5x5.h
         QML_FILES TicTacToe5x5.qml
         RESOURCES resources.qrc
+        QML_FILES t5x5Helpers.js
+        SOURCES TicTacToe5x5.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
