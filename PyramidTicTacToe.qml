@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import PyramidTicTacToe
-import PyramidHelper as Helper
+import "PyramidHelper.js" as Helper
 
 Item {
     id: pyramidWindow
