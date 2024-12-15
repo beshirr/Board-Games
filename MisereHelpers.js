@@ -46,7 +46,7 @@ function resetPlayerTurn() {
 
 function game_status() {
     if (!gameActive) {
-        return; // Prevents score updates if the game is inactive
+        return;
     }
     if (board.is_win()) {
         if (playerTurn === 0) {

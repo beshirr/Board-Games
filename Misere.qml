@@ -84,7 +84,6 @@ Item {
         font.pointSize: 20
         onTextChanged: {
             if (text.trim() === "") text = "PLAYER-1";
-            player1.name = text;
         }
         Keys.onReturnPressed: {
             focus = false;
@@ -207,10 +206,8 @@ Item {
         id: gameStatusMessage
         text: {
             if (game_is_won) {
-                console.log(Helpers.playerTurn === 0) ? player2Name_textEdit.text + " WINS!" : player1Name_textEdit.text + " WINS!";
                 return (Helpers.playerTurn === 0) ? player2Name_textEdit.text + " WINS!" : player1Name_textEdit.text + " WINS!";
             } else if (game_is_drawn) {
-                console.log("draw")
                 return "TIE!";
             } else {
                 return "";
