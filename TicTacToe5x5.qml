@@ -3,6 +3,7 @@ import QtQuick.Controls
 import TicTacToe5x5
 import "t5x5Helpers.js" as Helpers
 
+
 Item {
     anchors.fill: parent
     property string nPlayers: "1"
@@ -14,14 +15,12 @@ Item {
         id: player1
         name: "PLAYER-1"
         symbol: 'X'
-        nWins: 0
     }
 
     Player5x5 {
         id: player2
         name: "PLAYER-2"
         symbol: "O"
-        nWins: 0
     }
 
     RandomPlayer5x5 {
@@ -35,62 +34,89 @@ Item {
         color: "black"
     }
 
-    Component.onCompleted: {
-
+    Text {
+        text: "5x5 TIC-TAC-TOE"
+        color: "white"
+        font.bold: true;
+        font.pixelSize: 64
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 85
     }
 
     Button {
-        id: playersType
-        width: 30
-        height: 30
+        id: playersType_button
+        width: 50
+        height: 50
         text: nPlayers + "P"
         anchors.horizontalCenter: parent.horizontalCenter
-        y: 700
+        anchors.top: gameBoard.bottom
+        anchors.topMargin: 60
         onClicked: {
-            nPlayers = (nPlayers === "1")? "2" : "1";
-            text: nPlayers + "P"
+            nPlayers = (nPlayers === "1") ? "2" : "1";
+            text = nPlayers + "P"
+            player2Name_textEdit.text = (nPlayers === "1") ? computer.name : player2.name;
             board.reset_Board()
+            Helpers.resetPlayerTurn();
         }
     }
 
     TextEdit {
-        id: player1Name
+        id: player1Name_textEdit
         anchors.left: parent.left
-        anchors.leftMargin: 450
-        y: 650
+        anchors.leftMargin: 100
+        anchors.verticalCenter: parent.verticalCenter
         text: player1.name
         color: "white"
         font.pointSize: 20
         onTextChanged: {
-            player1.name = text
+            if (text.trim() === "") text = "PLAYER-1";
+            player1.name = text;
         }
         Keys.onReturnPressed: {
             focus = false;
         }
     }
-    // Text {
-    //     anchors.horizontalCenter: parent.horizontalCenter
-    //     font.pointSize: 24
-    //     text: Helpers.player1Score
-    //     color: "white"
-    // }
 
+    Text {
+        id: player1TotalScore
+        text: Helpers.player_1Total + " : " + board.player1Wins
+        color: "white"
+        font.pixelSize: 48
+
+        anchors.horizontalCenter: player1Name_textEdit.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: player1Name_textEdit.bottom
+    }
 
     TextEdit {
-        id: player2Name
+        id: player2Name_textEdit
         anchors.right: parent.right
-        anchors.rightMargin: 450
-        y: 650
+        anchors.rightMargin: 100
+        anchors.verticalCenter: parent.verticalCenter
         text: (nPlayers === "1")? computer.name : player2.name
         color: "white"
         font.pointSize: 20
         onTextChanged: {
-            player_2Name: text
+            if (text.trim() === "") text = (nPlayers === "1") ? computer.name : "PLAYER-2";
+            player2.name = text
         }
         Keys.onReturnPressed: {
             focus = false;
         }
     }
+
+    Text {
+        id: player2TotalScore
+        text: Helpers.player_1Total + " : " + board.player2Wins
+        color: "white"
+        font.pixelSize: 48
+
+        anchors.horizontalCenter: player2Name_textEdit.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: player2Name_textEdit.bottom
+    }
+
 
     Grid {
         id: gameBoard
@@ -112,7 +138,7 @@ Item {
                 Text {
                     id: cellText
                     anchors.centerIn: parent
-                    font.pixelSize: 85
+                    font.pixelSize: 72
                     text: modelData
                     color: "#333"
                 }
@@ -124,6 +150,11 @@ Item {
                 }
             }
         }
+    }
+
+    Connections {
+        target: board
+        onBoardReset: Helpers.resetPlayerTurn()
     }
 
     Button {
