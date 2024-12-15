@@ -24,6 +24,7 @@ private:
 public:
     // Override methods
     explicit Board5x5(QObject* parent = nullptr);
+    ~Board5x5() override;
     Q_INVOKABLE bool update_board(const int x, const int y, const QChar symbol) override;
     Q_INVOKABLE bool is_win() override;
     void display_board() override {}
@@ -31,6 +32,7 @@ public:
     Q_INVOKABLE bool game_is_over() override;
 
 
+    bool checkWinCondition(int x, int y, int dx, int dy, QChar symbol);
     Q_INVOKABLE void reset_Board();
     Q_INVOKABLE void reset_game();
     void play_again();
@@ -49,12 +51,12 @@ public:
     QStringList getFrontBoard() const;
     void updateFrontBoard();
 
-
 signals:
     void frontBoardChanged();
     void sequenceWon();
     void gameWon(int winner);
     void gameDrown();
+    void boardReset();
     void n_player1_winsChanged();
     void n_player2_winsChanged();
 };
@@ -64,7 +66,6 @@ class Player5x5 : public QObject, public Player<QString> {
     Q_OBJECT
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString symbol READ getSymbol WRITE setSymbol NOTIFY symbolChanged)
-    Q_PROPERTY(int nWins READ getNWins WRITE setNWins NOTIFY nWinsChanged)
 
 public:
     explicit Player5x5(QObject* parent = nullptr);
@@ -73,13 +74,10 @@ public:
     void setName(const QString& newName);
     QString getSymbol() const;
     void setSymbol(const QString &newSymbol);
-    int getNWins() const;
-    void setNWins(int newNWins);
 
 signals:
     void nameChanged();
     void symbolChanged();
-    void nWinsChanged();
 
 public:
     int nWins;

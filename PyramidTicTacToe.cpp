@@ -14,6 +14,7 @@ PyramidBoard::PyramidBoard(QObject* parent): QObject(parent){
         }
     }
     board[0][0] = board[0][1] = board[0][3] = board[0][4] = board[1][0] = board[1][4] = " ";
+    updateFrontBoard();
 }
 
 PyramidBoard::~PyramidBoard() {
@@ -43,16 +44,14 @@ void PyramidBoard::display_board() {
 }
 
 bool PyramidBoard::is_win() {
-    for (int i = 1; i < rows; ++i) {
-        for (int j = 0; j < columns-2; ++j) {
-            if((board[i][j] == board[i][j+1]) && (board[i][j] == board[i][j+2]) && (board[i][j] != "-"))return true;
-            if ((j == 2) && (i == 1)){
-                if((board[i][j] == board[i+1][j]) && (board[i][j] == board[i-1][j]) && (board[i][j]!= "-")) return true;
-            }
+    if ((board[2][2] == board[3][2]) && (board[2][2] == board[4][2]) && (board[2][2] != "-")) return true;
+    for (int i = 1; i < 3; ++i) {
+        for (int j = 1; j < 4; ++j) {
+            if (board[i][j] == board[i][j+1] && board[i][j] == board[i][j-1] && board[i][j] != "-") return true;
         }
     }
     if ((board[0][2] == board[1][1]) && (board[0][2] == board[2][0]) && (board[0][2] != "-")) return true;
-    else if ((board[0][2] == board[1][3]) && (board[0][2] == board[2][4]) && (board[0][2] != "-")) return true;
+    if ((board[0][2] == board[1][3]) && (board[0][2] == board[2][4]) && (board[0][2] != "-")) return true;
 
     return false;
 }
@@ -66,11 +65,11 @@ bool PyramidBoard::game_is_over() {
     return is_win() || is_draw();
 }
 
-void PyramidBoard::updateFrontBoard(int x, int y, QString symbol) {
+void PyramidBoard::updateFrontBoard() {
     f_board.clear();
-    for (int i = 0; i < this->rows; ++i) {
-        for (int j = 0; j < this->columns; ++j) {
-            f_board.append(QString(this->board[i][j]));
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < columns; ++j) {
+            f_board.append(board[i][j]);
         }
     }
     emit frontBoardChanged();
