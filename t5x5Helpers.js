@@ -1,33 +1,25 @@
 let playerTurn = 0;
-let player_1Total = 0;
-let player_2Total = 0;
 
 function run(index){
-    if (!board.game_is_over()) {
-        if (board.update_board(Math.floor(index / 5), index % 5, (playerTurn === 0)? player1.symbol : player2.symbol)) {
-            check_seq_win();
-            playerTurn = (playerTurn === 0) ? 1 : 0;
-            if (nPlayers === "1" && playerTurn === 1) {
-                computerTurn();
-                check_seq_win();
-                playerTurn = 0;
-            }
-        }
-    } else {
-        game_status();
+    if (!gameActive) {
+        return;
     }
-}
+
+    if (board.game_is_over()) {
+        gameEvalutaion();
+        return;
+    }
+
+    if (board.update_board(Math.floor(index / 5), index % 5, (playerTurn === 0)? player1.symbol : player2.symbol)) {
+        game_status()
 
 
-function check_seq_win() {
-    if (board.is_win()) {
-        if (playerTurn === 0) {
-            board.player1Wins++;
-
-        } else {
-            board.player2Wins++;
+        playerTurn = (playerTurn === 0) ? 1 : 0;
+        if (nPlayers === "1" && playerTurn === 1) {
+            computerTurn();
+            game_status()
+            playerTurn = 0;
         }
-        console.log("Player-", playerTurn, ": ", (playerTurn === 0) ? board.player1Wins : board.player2Wins);
     }
 }
 
@@ -45,19 +37,61 @@ function computerTurn() {
 
 
 function game_status () {
-    if (board.is_draw()){
-        console.log("TIE");
-    } else {
-        if (board.gameWinner() === 0) {
-            player_1Total++;
-            console.log("player1 wins")
+    if (!gameActive) {
+        return;
+    }
+
+    if (board.is_win()) {
+        if (playerTurn === 0) {
+            board.player1Wins++;
+            player1_seqScore++;
         } else {
-            console.log("player2 wins")
+            board.player2Wins++;
+            player2_seqScore++;
+        }
+    }
+}
+
+function gameEvalutaion() {
+    if (board.is_draw()) {
+        game_is_drawn = true;
+        game_is_won = false;
+        gameActive = false;
+        return true;
+    }
+    else {
+        if (playerTurn === 0) {
+            player_1Total++;
+        } else {
             player_2Total++;
         }
+        game_is_won = true;
+        gameActive = false;
+        game_is_drawn = false;
+        return true;
     }
 }
 
 function resetPlayerTurn() {
     playerTurn = 0;
+    gameActive = true;
+    resetScore();
 }
+
+function resetScore() {
+    player_1Total = 0;
+    player_2Total = 0;
+    player1_seqScore = 0;
+    player2_seqScore = 0;
+    board.player1Wins = 0;
+    board.player2Wins = 0;
+}
+
+function playAgain() {
+    player1_seqScore = 0;
+    player2_seqScore = 0;
+    board.player1Wins = 0;
+    board.player2Wins = 0;
+    board.reset_Board();
+}
+

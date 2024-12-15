@@ -1,37 +1,35 @@
 import QtQuick
 import QtQuick.Controls
-import TicTacToe5x5
-import "t5x5Helpers.js" as Helpers
-
+import Misere
+import "MisereHelpers.js" as Helpers
 
 Item {
     anchors.fill: parent
     property string nPlayers: "1"
     property int player_1Total: 0
     property int player_2Total: 0
-    property int player1_seqScore: 0
-    property int player2_seqScore: 0
     property bool gameActive: true
     property bool game_is_won: false
     property bool game_is_drawn: false
 
-    Board5x5 {
+
+    MisereBoard {
         id: board
     }
 
-    Player5x5 {
+    MiserePlayer {
         id: player1
         name: "PLAYER-1"
         symbol: 'X'
     }
 
-    Player5x5 {
+    MiserePlayer {
         id: player2
         name: "PLAYER-2"
         symbol: "O"
     }
 
-    RandomPlayer5x5 {
+    MisereRandomPlayer {
         id: computer
         name: "COMPUTER"
         symbol: "O"
@@ -43,7 +41,7 @@ Item {
     }
 
     Text {
-        text: "5x5 TIC-TAC-TOE"
+        text: "MISERE TIC-TAC-TOE"
         color: "white"
         font.bold: true;
         font.pixelSize: 64
@@ -66,6 +64,7 @@ Item {
             text = nPlayers + "P"
             player2Name_textEdit.text = (nPlayers === "1") ? computer.name : player2.name;
             board.reset_Board()
+            Helpers.resetScore();
             Helpers.resetPlayerTurn();
         }
 
@@ -85,7 +84,6 @@ Item {
         font.pointSize: 20
         onTextChanged: {
             if (text.trim() === "") text = "PLAYER-1";
-            player1.name = text;
         }
         Keys.onReturnPressed: {
             focus = false;
@@ -94,7 +92,7 @@ Item {
 
     Text {
         id: player1TotalScore
-        text: player_1Total + " : " + player1_seqScore
+        text: player_1Total
         color: "white"
         font.pixelSize: 48
 
@@ -123,7 +121,7 @@ Item {
 
     Text {
         id: player2TotalScore
-        text: player_2Total + " : " + player2_seqScore
+        text: player_2Total
         color: "white"
         font.pixelSize: 48
 
@@ -132,11 +130,10 @@ Item {
         anchors.top: player2Name_textEdit.bottom
     }
 
-
     Grid {
         id: gameBoard
-        rows: 5
-        columns: 5
+        rows: 3
+        columns: 3
         spacing: 0
         anchors.centerIn: parent
         width: parent.width * 0.45
@@ -145,8 +142,8 @@ Item {
         Repeater {
             model: board.f_board
             Rectangle {
-                width: gameBoard.width / 5 - gameBoard.spacing
-                height: gameBoard.height / 5 - gameBoard.spacing
+                width: gameBoard.width / 3 - gameBoard.spacing
+                height: gameBoard.height / 3 - gameBoard.spacing
                 color: "#000000"
                 border.color: "white"
                 border.width: 2
@@ -205,21 +202,17 @@ Item {
         visible: !gameActive
     }
 
-
     Text {
         id: gameStatusMessage
-        text:
+        text: {
             if (game_is_won) {
-                if (Helpers.playerTurn === 0) {
-                    player1Name_textEdit.text + " WINS!"
-                } else {
-                    player2Name_textEdit.text + " WINS!"
-                }
+                return (Helpers.playerTurn === 0) ? player2Name_textEdit.text + " WINS!" : player1Name_textEdit.text + " WINS!";
             } else if (game_is_drawn) {
-                "TIE!"
+                return "TIE!";
             } else {
-                ""
+                return "";
             }
+        }
         color: "white"
         font.pixelSize: 42
         anchors.horizontalCenter: parent.horizontalCenter
@@ -228,11 +221,11 @@ Item {
         visible: !gameActive
     }
 
-    Connections {
-        target: board
-        onBoardReset: Helpers.resetPlayerTurn()
-    }
 
+    Connections {
+       target: board
+       onBoardReset: Helpers.resetPlayerTurn()
+    }
 
     Button {
         id: backMenu
