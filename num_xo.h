@@ -38,12 +38,12 @@ public:
             for (int j = 0; j < 3; ++j) {
                 cout << "| " << (this->board[i][j] == 0 ? " " : to_string(this->board[i][j]));  
             } 
-            cout << " |";
+            cout << "|";
             cout << endl;
         }
-        for (int k = 0; k < 3; k++) cout << "___ ";
+        for (int k = 0; k < 3; k++) cout << " ___";
         cout << endl; 
-        cout << " 0   1   2";
+        cout << "    0  1  2";
         cout << endl;
     }
     bool is_win() {
@@ -90,7 +90,7 @@ public:
     }
 
 
-    bool update_board(int x, int y, T symbol) {
+    bool update_board(int x, int y, T symbol ) {
 
         /*if ( used_numbers.count(symbol)) { 
             cout << "enter valid index" << endl;
@@ -127,7 +127,7 @@ public:
 
     void getmove(int& x, int& y) {
 
-        cout << this->name << "'s turn (" << this->symbol << "):" << endl; 
+        cout << this->name << "'s turn  "; 
 
         cout << "Available numbers: ";
 
@@ -137,7 +137,7 @@ public:
         cout << "\nRow -> ";
         cin >> x;
 
-        cout << "\nColumn -> ";
+        cout << "Column -> ";
         cin >> y;
 
         while ((x > 2 || x < 0) || (y > 2 || y < 0) || this->board->board[x][y] != 0)
@@ -153,7 +153,7 @@ public:
 
         int number;
 
-        cout << "\nNumber -> ";
+        cout << "Number -> ";
         cin >> number;
 
 
@@ -175,21 +175,21 @@ class num_xo_random_player : public RandomPlayer<T> {
 private:
     num_xo_board<int>* board;
     vector<int> numbers  ;
+    //num_xo_player<int>* p = new num_xo_random_player;
 public:
-    num_xo_random_player(T symbol ,vector<int> selected_numbers, num_xo_board<int>* board ) : RandomPlayer<T>(symbol) {
+    num_xo_random_player( T symbol ,vector<int> selected_numbers, num_xo_board<int>* board ) : RandomPlayer<T>(symbol) { 
         this->dimension = 3;  
         this->name = "Random Computer Player";
         srand(static_cast<unsigned int>(time(0)));
         numbers = selected_numbers;
         this->board = board;  
-
-        symbol = element; 
+        
     }
-
+    
     
     void getmove(int& x, int& y) {
         
-        x = rand() % 3; 
+        x = rand() % 3;  
         y = rand() % 3; 
 
         while (this->board->board[x][y] != 0 )
@@ -197,15 +197,32 @@ public:
             x = rand() % this->dimension;  
             y = rand() % this->dimension; 
         }
+        
 
-        while (!numbers.empty()) {
-            int randomIndex = std::rand() % numbers.size();  
-            int element = numbers[randomIndex];  
+        //while (!numbers.empty()) {
+        //    int randomIndex = std::rand() % numbers.size();  
+        //    int element = numbers[randomIndex];  
+        //    cout << "the random element :" << element << endl;
+        //    //this->board->update_board(x, y, element);
+        //    //numbers.erase(numbers.begin() + randomIndex); 
+        //    auto it = find(numbers.begin(), numbers.end(), element);
+        //    if (it != numbers.end()) {
+        //        numbers.erase(it);
+        //    }
+        //    
+        //}
+        //int randomIndex = std::rand() % numbers.size(); 
+        //cout << "the randomIndex :" << randomIndex << endl; 
 
-            //this->board->update_board(x, y, element);
-            numbers.erase(numbers.begin() + randomIndex); 
-            
-        }
+        //int element = numbers[randomIndex];
+        //
+        //cout << "the random element :" << element << endl;
+        ////this->board->update_board(x, y, element);
+        ////numbers.erase(numbers.begin() + randomIndex); 
+        //auto it = find(numbers.begin(), numbers.end(), element);
+        //if (it != numbers.end()) {
+        //    numbers.erase(it);
+        //}
         
     }
     
