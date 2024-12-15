@@ -86,8 +86,10 @@ bool UltimateBoard::update_board(int x, int y, string symbol) {
         if (j == 0){currentBoard = k;}
         else if (j == 2){currentBoard = k+6;}
         else if (j == 1 && k == 0){currentBoard = 3;}
-        else if (j == 1 && k == 2){currentBoard = 4;}
-        playerTurn = playerTurn == 1? 2 : 1;
+        else if (j == 1 && k == 1){currentBoard = 4;}
+        else if (j == 1 && k == 2){currentBoard = 5;}
+        if (playerTurn == 1)playerTurn = 2;
+        else if (playerTurn == 2)playerTurn =1;
         n_moves++;
         return true;
     }
@@ -106,6 +108,7 @@ void UltimateBoard::update_mini_board(int i, string symbol) {
 }
 
 void UltimateBoard::display_board() {
+    cout << "=================================================================" << endl;
     int helper = 0;
     for (int i = 0; i < 9; i+=3) {
         for (int j = 0; j < 3; j++) {
@@ -121,6 +124,7 @@ void UltimateBoard::display_board() {
         }
         cout << "\n";
     }
+    cout << "=================================================================" << endl;
 }
 
 bool UltimateBoard::is_mini_win() {
@@ -171,12 +175,19 @@ bool UltimateBoard::game_is_over() {
     return false;
 }
 
-
-
 UltimatePlayer::UltimatePlayer(string name, string symbol) : Player<string>(name, symbol){}
+
 void UltimatePlayer::getmove(int &x, int &y) {
     cout << name << ", enter your move (x y): ";
     cin >> x >> y;
     x--;
     y--;
+}
+
+UltimateRandomPlayer::UltimateRandomPlayer(string symbol): RandomPlayer<string>(symbol){}
+
+void UltimateRandomPlayer::getmove(int &x, int &y) {
+    srand(time(0));
+    x = rand() % 9;
+    y = rand() % 9;
 }

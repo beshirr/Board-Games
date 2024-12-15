@@ -2,6 +2,8 @@
 #define BOARDGAME_ULTIMATETICTACTOE_H
 
 #include "BoardGame_Classes.h"
+#include <cstdlib>
+#include <ctime>
 
 
 using namespace std;
@@ -40,6 +42,14 @@ class UltimatePlayer: public Player<string> {
 
 public:
     UltimatePlayer(string name, string symbol);
+    void getmove(int &x, int &y) override;
+};
+
+
+class UltimateRandomPlayer: public RandomPlayer<string> {
+public:
+    UltimateRandomPlayer(string symbol);
+
     void getmove(int &x, int &y) override;
 };
 
