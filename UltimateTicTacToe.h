@@ -1,59 +1,46 @@
 #ifndef BOARDGAME_ULTIMATETICTACTOE_H
 #define BOARDGAME_ULTIMATETICTACTOE_H
 
-
-#include <QObject>
 #include "BoardGame_Classes.h"
-#include <QString>
-#include <set>
+
 
 using namespace std;
 
-class UltimateBoard: public QObject, Board<QString> {
-    Q_OBJECT
-    Q_PROPERTY(QStringList f_board READ getFrontBoard WRITE setFrontBoard NOTIFY frontBoardChanged)
-
+class UltimateBoard: public Board<string> {
 private:
-    QStringList f_board;
     int currentBoard;
-    QString*** boards;
-    QString miniBoard[3][3];
+    string ***boards;
+    string miniBoard[3][3];
     int playerTurn;
 
 
 public:
-    explicit UltimateBoard(QObject *parent);
-    ~UltimateBoard();
-    Q_INVOKABLE bool update_board(int x, int y, QString symbol) override;
-    Q_INVOKABLE void update_mini_board(int i, QString symbol);
-    void display_board() override;
-    Q_INVOKABLE bool is_mini_win();
-    Q_INVOKABLE bool is_win() override;
-    bool is_draw() override;
-    Q_INVOKABLE bool game_is_over() override;
-    Q_INVOKABLE void updateFrontBoard();
-    QStringList getFrontBoard();
+    UltimateBoard();
 
-signals:
-    void frontBoardChanged();
+    ~UltimateBoard();
+
+    bool update_board(int x, int y, string symbol) override;
+
+    void update_mini_board(int i, string symbol);
+
+    void display_board() override;
+
+    bool is_mini_win();
+
+    bool is_win() override;
+
+    bool is_draw() override;
+
+    bool game_is_over() override;
 };
 
-class UltimatePlayer: public QObject, Player<QString> {
-    Q_OBJECT
-    Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString symbol READ getSymbol WRITE setSymbol NOTIFY symbolChanged)
+
+
+class UltimatePlayer: public Player<string> {
 
 public:
-    explicit UltimatePlayer(QObject* parent);
+    UltimatePlayer(string name, string symbol);
     void getmove(int &x, int &y) override;
-    QString getName() const;
-    void setName(const QString& newName);
-    QString getSymbol() const;
-    void setSymbol(const QString& newSymbol);
-
-signals:
-    void nameChanged();
-    void symbolChanged();
 };
 
 

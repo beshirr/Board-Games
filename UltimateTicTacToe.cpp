@@ -1,15 +1,15 @@
 #include "UltimateTicTacToe.h"
 
-UltimateBoard::UltimateBoard(QObject *parent): QObject(parent) {
+UltimateBoard::UltimateBoard() {
     rows = 3;
     columns = 3;
     currentBoard = 4;
     playerTurn = 1;
-    boards = new QString**[9];
+    boards = new string**[9];
     for (int i = 0; i < 9; i++) {
-        boards[i] = new QString *[rows];
+        boards[i] = new string *[rows];
         for (int j = 0; j < rows; j++) {
-            boards[i][j] = new QString[columns];
+            boards[i][j] = new string[columns];
             for (int k = 0; k < columns; k++) {
                 boards[i][j][k] = "-";
             }
@@ -20,7 +20,6 @@ UltimateBoard::UltimateBoard(QObject *parent): QObject(parent) {
             miniBoard[i][j] = "-";
         }
     }
-    updateFrontBoard();
 }
 
 UltimateBoard::~UltimateBoard() {
@@ -33,8 +32,8 @@ UltimateBoard::~UltimateBoard() {
     delete[] boards;
 }
 
-Q_INVOKABLE bool UltimateBoard::update_board(int x, int y, QString symbol) {
-    if (x < 0 || y < 0 || x >= 9 || y >= 9) return false;
+bool UltimateBoard::update_board(int x, int y, string symbol) {
+    if (x < 0 || y < 0 || x > 9 || y > 9) return false;
     int i, j, k;
     if ((x < 3) && (y < 3)){
         i = 0;
@@ -59,12 +58,12 @@ Q_INVOKABLE bool UltimateBoard::update_board(int x, int y, QString symbol) {
     else if ((x >= 3) && (x < 6) && (y >= 3) && (y < 6)){
         i = 4;
         j = x - 3;
-        k = y - 6;
+        k = y - 3;
     }
     else if ((x >= 6) && (y >= 3) && (y < 6)){
         i = 7;
         j = x - 6;
-        k = y - 6;
+        k = y - 3;
     }
     else if ((x < 3) && (y >= 6)){
         i = 2;
@@ -84,15 +83,17 @@ Q_INVOKABLE bool UltimateBoard::update_board(int x, int y, QString symbol) {
     if (boards[i][j][k] != "-" || currentBoard != i) return false;
     else {
         boards[i][j][k] = symbol;
-        currentBoard = i;
+        if (j == 0){currentBoard = k;}
+        else if (j == 2){currentBoard = k+6;}
+        else if (j == 1 && k == 0){currentBoard = 3;}
+        else if (j == 1 && k == 2){currentBoard = 4;}
         playerTurn = playerTurn == 1? 2 : 1;
         n_moves++;
-        updateFrontBoard();
         return true;
     }
 }
 
-void UltimateBoard::update_mini_board(int i, QString symbol) {
+void UltimateBoard::update_mini_board(int i, string symbol) {
     if (i < 3){
         miniBoard[0][i] = symbol;
     }
@@ -105,12 +106,18 @@ void UltimateBoard::update_mini_board(int i, QString symbol) {
 }
 
 void UltimateBoard::display_board() {
-    for (int i = 0; i < 9; i++) {
+    int helper = 0;
+    for (int i = 0; i < 9; i+=3) {
         for (int j = 0; j < 3; j++) {
-            for (int k = 0; k < 3; k++) {
-                cout << boards[i][j][k].toStdString();
+            while (helper != 3){
+                for (int k = 0; k < 3; ++k) {
+                    cout << " " << boards[helper+i][j][k] << " ";
+                }
+                cout << "   ";
+                helper++;
             }
             cout << "\n";
+            helper = 0;
         }
         cout << "\n";
     }
@@ -120,10 +127,10 @@ bool UltimateBoard::is_mini_win() {
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 3; j++) {
             bool r_win = boards[i][j][0]!= "-" && boards[i][j][0] == boards[i][j][1] &&
-                                boards[i][j][1] == boards[i][j][2];
+                         boards[i][j][1] == boards[i][j][2];
 
             bool c_win = boards[i][0][j]!= "-" && boards[i][0][j] == boards[i][1][j] &&
-                                boards[i][0][j] == boards[i][2][j];
+                         boards[i][0][j] == boards[i][2][j];
 
             if (r_win || c_win) {
                 update_mini_board(currentBoard, playerTurn == 2? "X" : "O");
@@ -143,6 +150,7 @@ bool UltimateBoard::is_mini_win() {
 }
 
 bool UltimateBoard::is_win() {
+    is_mini_win();
     for (int i = 0; i < 3; ++i) {
         bool r_win = miniBoard[i][0] != "-" && miniBoard[i][0] == miniBoard[i][1] && miniBoard[i][0] == miniBoard[i][2];
         bool c_win = miniBoard[0][i] != "-" && miniBoard[0][i] == miniBoard[1][i] && miniBoard[0][i] == miniBoard[2][i];
@@ -155,6 +163,7 @@ bool UltimateBoard::is_win() {
 
 bool UltimateBoard::is_draw() {
     if (n_moves >= 81) return true;
+    return false;
 }
 
 bool UltimateBoard::game_is_over() {
@@ -162,38 +171,12 @@ bool UltimateBoard::game_is_over() {
     return false;
 }
 
-void UltimateBoard::updateFrontBoard() {
-    f_board.clear();
-    for (int i = 0; i < 9; ++i) {
-        for (int j = 0; j < rows; ++j) {
-            for (int k = 0; k < columns; ++k) {
-                f_board.append(board[i][j]);
-            }
-        }
-    }
-    emit frontBoardChanged();
-}
-QStringList UltimateBoard::getFrontBoard() {return f_board;}
 
-UltimatePlayer::UltimatePlayer(QObject *parent) : QObject(parent), Player<QString>("player", "p"){}
 
+UltimatePlayer::UltimatePlayer(string name, string symbol) : Player<string>(name, symbol){}
 void UltimatePlayer::getmove(int &x, int &y) {
     cout << name << ", enter your move (x y): ";
     cin >> x >> y;
     x--;
     y--;
-}
-
-QString UltimatePlayer::getName() const {return QString::fromStdString(name);}
-
-void UltimatePlayer::setName(const QString &newName) {
-    name = newName.toStdString();
-    emit nameChanged();
-}
-
-QString UltimatePlayer::getSymbol() const {return symbol;}
-
-void UltimatePlayer::setSymbol(const QString &newSymbol) {
-    symbol = newSymbol;
-    emit symbolChanged();
 }
