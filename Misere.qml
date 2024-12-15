@@ -205,18 +205,17 @@ Item {
 
     Text {
         id: gameStatusMessage
-        text:
+        text: {
             if (game_is_won) {
-                if (Helpers.playerTurn === 0) {
-                    player2Name_textEdit.text + " WINS!"
-                } else {
-                    player1Name_textEdit + " WINS!"
-                }
+                console.log(Helpers.playerTurn === 0) ? player2Name_textEdit.text + " WINS!" : player1Name_textEdit.text + " WINS!";
+                return (Helpers.playerTurn === 0) ? player2Name_textEdit.text + " WINS!" : player1Name_textEdit.text + " WINS!";
             } else if (game_is_drawn) {
-                "TIE!"
+                console.log("draw")
+                return "TIE!";
             } else {
-                ""
+                return "";
             }
+        }
         color: "white"
         font.pixelSize: 42
         anchors.horizontalCenter: parent.horizontalCenter

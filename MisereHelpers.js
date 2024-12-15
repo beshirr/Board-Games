@@ -14,6 +14,9 @@ function run(index){
             if (nPlayers === "1" && playerTurn === 1) {
                 computerTurn();
                 game_status();
+                if (game_status()) {
+                    return;
+                }
                 playerTurn = 0;
             }
         }
@@ -56,6 +59,7 @@ function game_status() {
         return true;
     } else if (board.is_draw()) {
         game_is_drawn = true;
+        game_is_won = false;
         gameActive = false;
     }
 }
