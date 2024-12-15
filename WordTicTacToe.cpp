@@ -85,6 +85,13 @@ QStringList WordBoard::getFrontBoard() {return f_board;}
 
 WordPlayer::WordPlayer(QObject* parent) : QObject(parent), Player<QString>("player", "p"){}
 
+void WordPlayer::getmove(int &x, int &y) {
+    cout << name << ", enter your move (x y): ";
+    cin >> x >> y;
+    x--;
+    y--;
+}
+
 QString WordPlayer::getName() const {return QString::fromStdString(name);}
 
 void WordPlayer::setName(const QString& newName) {
