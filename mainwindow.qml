@@ -131,6 +131,7 @@ Item {
                     fillMode: Image.PreserveAspectFit
                 }
             }
+            onClicked: gamecontentLoader.source = "Misere.qml";
         }
 
         Button {
