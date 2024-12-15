@@ -30,8 +30,8 @@ signals:
 
 class PyramidPlayer: public QObject, Player<QString>{
     Q_OBJECT
-    Q_PROPERTY(QString name READ getName WRITE setName NOTIF nameChanged)
-    Q_PROPERTY(QString symbol READ getSymbol WRITE setSymbol NOTIF symbolChanged)
+    Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString symbol READ getSymbol WRITE setSymbol NOTIFY symbolChanged)
 
 private:
     QString name;
