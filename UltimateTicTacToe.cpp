@@ -96,13 +96,13 @@ bool UltimateBoard::update_board(int x, int y, string symbol) {
 }
 
 void UltimateBoard::update_mini_board(int i, string symbol) {
-    if (i < 3){
+    if (i < 3 && miniBoard[0][i] == "-"){
         miniBoard[0][i] = symbol;
     }
-    else if (i >= 3 && i < 6){
+    else if (i >= 3 && i < 6 && miniBoard[1][i-3] == "-"){
         miniBoard[1][i - 3] = symbol;
     }
-    else{
+    else if (i >= 6 && miniBoard[2][i-6] == "-"){
         miniBoard[2][i - 6] = symbol;
     }
 }
@@ -142,11 +142,13 @@ bool UltimateBoard::is_mini_win() {
             }
         }
         if (boards[i][0][0] != "-" && boards[i][0][0] == boards[i][1][1] && boards[i][0][0] == boards[i][2][2]) {
-            update_mini_board(currentBoard, playerTurn == 2? "X" : "O");
+            if (playerTurn == 2){update_mini_board(currentBoard, "X");}
+            else{update_mini_board(currentBoard, "O");}
             return true;
         }
-        if (boards[i][0][2]!= "-" && boards[i][0][2] == boards[i][1][1] && boards[i][0][2] == boards[i][2][0]) {
-            update_mini_board(currentBoard, playerTurn == 2? "X" : "O");
+        if (boards[i][0][2]!= "-" && boards[i][0][2] == boards[i][1][1] && boards[i][0][2] == boards[i][2][0] ) {
+            if (playerTurn == 2){update_mini_board(currentBoard, "X");}
+            else{update_mini_board(currentBoard, "O");}
             return true;
         }
     }
