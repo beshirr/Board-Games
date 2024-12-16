@@ -1,17 +1,16 @@
 #include "WordTicTacToe.h"
 
-WordBoard::WordBoard(QObject *parent): QObject(parent){
+WordBoard::WordBoard(){
     rows = 3;
     columns = 3;
     WordsFile = "dic.txt";
-    board = new QString*[rows];
+    board = new string*[rows];
     for(int i = 0; i < rows; i++) {
-        board[i] = new QString[columns];
+        board[i] = new string[columns];
         for(int j = 0; j < columns; j++) {
             board[i][j] = "-";
         }
     }
-    updateFrontBoard();
 }
 
 WordBoard::~WordBoard(){
@@ -21,8 +20,8 @@ WordBoard::~WordBoard(){
     delete[] board;
 }
 
-bool WordBoard::update_board(int x, int y, QString symbol) {
-    if (x < 0 || y < 0 || x >= rows || y >= columns || board[x][y] != "-")return false;
+bool WordBoard::update_board(int x, int y, string symbol) {
+    if (x < 0 || y < 0 || x >= rows || y >= columns || board[x][y] != "-" || !isalpha(symbol[0]))return false;
     else {
         board[x][y] = symbol;
         n_moves++;
@@ -34,14 +33,14 @@ void WordBoard::display_board() {
     for(int i = 0; i < rows; i++) {
         cout << i+1 << " ";
         for(int j = 0; j < columns; j++) {
-            cout << board[i][j].toStdString() << " ";
+            cout << board[i][j] << " ";
         }
         cout << endl;
     }
     cout << endl;
 }
 
-bool WordBoard::is_word(const QString& word) {
+bool WordBoard::is_word(const string& word) {
     ifstream file(WordsFile);
     string line;
     while(getline(file, line)) {
@@ -54,9 +53,7 @@ bool WordBoard::is_word(const QString& word) {
 bool WordBoard::is_win() {
     for(int i = 0; i < rows; i++) {
         if (is_word(board[i][0] + board[i][1] + board[i][2])) return true;
-    }
-    for(int j = 0; j < columns; j++) {
-        if (is_word(board[0][j] + board[1][j] + board[2][j])) return true;
+        if (is_word(board[0][i] + board[1][i] + board[2][i])) return true;
     }
     if (is_word(board[0][0] + board[1][1] + board[2][2])) return true;
     if (is_word(board[0][2] + board[1][1] + board[2][0])) return true;
@@ -72,43 +69,27 @@ bool WordBoard::game_is_over() {
     return is_win() || is_draw();
 }
 
-void WordBoard::updateFrontBoard() {
-    f_board.clear();
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < columns; ++j) {
-            f_board.append(board[i][j]);
-        }
-    }
-}
-
-QStringList WordBoard::getFrontBoard() {return f_board;}
-
-WordPlayer::WordPlayer(QObject* parent) : QObject(parent), Player<QString>("player", "p"){}
 
 void WordPlayer::getmove(int &x, int &y) {
+    string letter = "";
     cout << name << ", enter your move (x y): ";
     cin >> x >> y;
+    cout << name << ", enter a letter: ";
+    cin >> letter;
+    symbol = tolower(letter[0]);
     x--;
     y--;
 }
 
-QString WordPlayer::getName() const {return QString::fromStdString(name);}
+WordPlayer::WordPlayer(const string& playerName, string playerSymbol) : Player<string>(playerName, playerSymbol){}
 
-void WordPlayer::setName(const QString& newName) {
-    name = newName.toStdString();
-    emit nameChanged();
-}
+WordRandomPlayer::WordRandomPlayer(string symbol) : RandomPlayer<string>(symbol){}
 
-QString WordPlayer::getSymbol() const { return symbol;}
-
-void WordPlayer::setSymbol(const QString &newSymbol) {
-    symbol = newSymbol;
-    emit symbolChanged();
-}
-
-void WordPlayer::getmove(int &x, int &y) {
-    cout << name << ", enter your move (x y): ";
-    cin >> x >> y;
-    x--;
-    y--;
+void WordRandomPlayer::getmove(int &x, int &y) {
+    string letters[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+    srand(time(0));
+    x = rand() % 3;
+    y = rand() % 3;
+    int randomIndex = rand() % 26;
+    symbol = letters[randomIndex];
 }
